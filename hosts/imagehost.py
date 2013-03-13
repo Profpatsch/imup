@@ -1,13 +1,28 @@
 import mimetypes as mt
 import re
 
+POST_URL = None
+
 class Imagehost:
+    """Abstract base class for image hosts."""
     def __init__(self):
         self.fn = None
+        self.POST_URL = POST_URL
+
     def get_link(self, filename):
-        """Upload image to this image host and return a link to it."""
+        """Upload image to this image host and return a link to it.
+        
+        Error:
+            ImagehostError
+            FiletypeError (image not accepted)
+        """
         self.fn = filename
-        pass
+        if !self.file_is_image():
+            raise FiletypeError("File is no image!")
+        answer = self._request_post();
+        link = self._handle_server_answer(answer)
+        return link
+
     def file_is_image(self):
         """Checks if file is an image MIME-type"""
         type, _ = mt.guess_type(self.fn, strict=False)
@@ -16,5 +31,27 @@ class Imagehost:
                 return True
         return False
 
-class FiletypeError(Exception):
-    pass
+    def _request_post(self):
+        """Post the image to the URL specified in self.POST_URL
+        
+        Returns: Server answer
+        """
+        datagen, headers = multipart_encode({'image':
+                open(self.fn, 'rb')})
+        # Post image to host
+        answer = urllib.request.Request(POST_URL, datagen, headers)
+        return answer
+
+    def _handle_server_answer(self, answer):
+        """Handles the strings returned by the server, mostly JSON or XML.
+        Most likely needs to be implemented by each image host module in a
+        different way.
+        
+        Input: Server answer
+        Returns: Link to image
+        Error: ImagehostError or something more specific.
+        """
+        pass
+
+class FiletypeError(Exception): pass
+class ImagehostError(Exception): pass
