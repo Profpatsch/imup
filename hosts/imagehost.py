@@ -1,9 +1,14 @@
+#!/usr/bin/env python
+# −*− coding: UTF−8 −*−
+from libposter.encode import multipart_encode
+
+import urllib2
 import mimetypes as mt
 import re
 
 POST_URL = None
 
-class Imagehost:
+class Imagehost(object):
     """Abstract base class for image hosts."""
     def __init__(self):
         self.fn = None
@@ -16,8 +21,9 @@ class Imagehost:
             ImagehostError
             FiletypeError (image not accepted)
         """
+        #TODO Document all possible errors.
         self.fn = filename
-        if !self.file_is_image():
+        if not self.file_is_image():
             raise FiletypeError("File is no image!")
         answer = self._request_post();
         link = self._handle_server_answer(answer)
@@ -34,13 +40,14 @@ class Imagehost:
     def _request_post(self):
         """Post the image to the URL specified in self.POST_URL
         
-        Returns: Server answer
+        Returns: Server answer (str)
         """
-        datagen, headers = multipart_encode({'image':
-                open(self.fn, 'rb')})
-        # Post image to host
-        answer = urllib.request.Request(POST_URL, datagen, headers)
-        return answer
+        with open(self.fn, 'rb') as f:
+            datagen, headers = multipart_encode({'image': f})
+            # Post image to host
+            req = urllib2.Request(self.POST_URL, datagen, headers)
+            answer = urllib2.urlopen(req)
+            return answer.read()
 
     def _handle_server_answer(self, answer):
         """Handles the strings returned by the server, mostly JSON or XML.
@@ -51,6 +58,7 @@ class Imagehost:
         Returns: Link to image
         Error: ImagehostError or something more specific.
         """
+        #TODO: Document “Something more specific”.
         pass
 
 class FiletypeError(Exception): pass

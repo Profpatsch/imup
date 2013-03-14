@@ -1,5 +1,6 @@
 # Project
 poster/
+.ropeproject
 
 
 *.py[cod]
