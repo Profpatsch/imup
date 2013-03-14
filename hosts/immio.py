@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # −*− coding: UTF−8 −*−
 from hosts.imagehost import *
 import json
@@ -14,6 +14,5 @@ class Immio(Imagehost):
     def _handle_server_answer(self, answer):
         jansw = json.loads(answer)
         if not (jansw["success"]):
-            #TODO Split errors.
             return ImagehostError(json.dumps(janw["payload"]))
         return jansw["payload"]["uri"]

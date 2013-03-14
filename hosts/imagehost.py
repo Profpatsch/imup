@@ -1,10 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # −*− coding: UTF−8 −*−
 from libposter.encode import multipart_encode
 
 import urllib2
 import mimetypes as mt
 import re
+import logging as log
 
 POST_URL = None
 
@@ -20,12 +21,14 @@ class Imagehost(object):
         Error:
             ImagehostError
             FiletypeError (image not accepted)
+            URLError (Couldn’t contact server.)
         """
-        #TODO Document all possible errors.
         self.fn = filename
         if not self.file_is_image():
             raise FiletypeError("File is no image!")
+        log.info("Uploading image…")
         answer = self._request_post();
+        log.info("Image uploaded, evaluating server response…")
         link = self._handle_server_answer(answer)
         return link
 
@@ -41,6 +44,7 @@ class Imagehost(object):
         """Post the image to the URL specified in self.POST_URL
         
         Returns: Server answer (str)
+        Error: URLError
         """
         with open(self.fn, 'rb') as f:
             datagen, headers = multipart_encode({'image': f})
@@ -56,9 +60,8 @@ class Imagehost(object):
         
         Input: Server answer
         Returns: Link to image
-        Error: ImagehostError or something more specific.
+        Error: ImagehostError
         """
-        #TODO: Document “Something more specific”.
         pass
 
 class FiletypeError(Exception): pass
