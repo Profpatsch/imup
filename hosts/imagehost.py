@@ -3,7 +3,7 @@
 from libposter.encode import multipart_encode
 
 import urllib2
-import mimetypes as mt
+import mimetypes
 import re
 import logging as log
 
@@ -34,7 +34,7 @@ class Imagehost(object):
 
     def file_is_image(self):
         """Checks if file is an image MIME-type"""
-        type, _ = mt.guess_type(self.fn, strict=False)
+        type, _ = mimetypes.guess_type(self.fn, strict=False)
         if type:
             if re.match(r"image/", type):
                 return True
