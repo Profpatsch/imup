@@ -16,8 +16,8 @@ if none given) and returns the link to the uploaded image.
       -v, --verbose
       -V, --version         show program's version number and exit
 
-But, what can I do with it?
----------------------------
+
+### But, what can I do with it?
 
 > “Logic will get you from A to Z; imagination will get you everywhere.”
 > 
@@ -34,28 +34,21 @@ your clipboard into a chat with a friend (Ctrl+v). Voilà.
 Best served as shortcut.
 
 
-I want another filehost!
-------------------------
+### I want another filehost!
 
-No worries, thought about that.
-
+No worries, thought about that.  
 Due to imup’s modular nature it’s rather simple (if you know python):
 
 1. Open `hosts/__init__.py` and add the line
 
-    import <filehost name>
+        import <filehost name>
 
 2. Create a file `<filehost name>.py` in `hosts`.
-
 3. Create a class that extends `Imagehost` from `hosts/imagehost.py`.
-
 4. If the API has a simble POST functionality, overwrite 
    `_handle_server_answer(self, answer.`.
-
 5. If it’s slightly more complicated, overwrite more functions of `Imagehost`.
-
 6. ???
-
 7. PROFIT!
 
 Look at `imagehost.py`, I documented everything (of which there isn’t much, 
