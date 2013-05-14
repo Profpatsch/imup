@@ -14,5 +14,5 @@ class Immio(Imagehost):
     def _handle_server_answer(self, answer):
         jansw = json.loads(answer)
         if not (jansw["success"]):
-            return ImagehostError(json.dumps(janw["payload"]))
+            return ImagehostError(json.dumps(jansw["payload"]))
         return jansw["payload"]["uri"]
