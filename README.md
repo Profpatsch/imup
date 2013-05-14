@@ -43,7 +43,7 @@ Due to imup’s modular nature it’s rather simple (if you know python):
 
 1. Open `hosts/__init__.py` and add the line
 
-    import <filehost name>
+       import <filehost name>
 
 2. Create a file `<filehost name>.py` in `hosts`.
 
