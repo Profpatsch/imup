@@ -29,7 +29,8 @@ It’s entirely up to you, but try the following:
         xclip -selection clipboard
 
 Then select what you want to make a screenshot of, wait a few seconds and paste 
-your clipboard into a chat with a friend (Ctrl+v). Voilà.
+your clipboard into a chat with a friend (Ctrl+v). Voilà.  
+(Install imagemagick and xclip first.)
 
 Best served as shortcut.
 
