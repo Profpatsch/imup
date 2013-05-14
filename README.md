@@ -1,6 +1,9 @@
 imup
 ====
 
+<img src="http://openiconlibrary.sourceforge.net/gallery2/open_icon_library-full/icons/png/128x128/emblems/emblem-symbolic-link.png"
+ align="right" width="100" height="100"  />
+
 usage: `imup.py [-h] [-i hostname] [-v] [-V] filename`
 
 Takes a filename to an image, uploads it to the specified image host (random
@@ -19,9 +22,12 @@ if none given) and returns the link to the uploaded image.
 
 ### But, what can I do with it?
 
-> “Logic will get you from A to Z; imagination will get you everywhere.”
+<img src="http://openiconlibrary.sourceforge.net/gallery2/open_icon_library-full/icons/png/64x64/others/light_bulb.png"
+ align="left" />
+
+>  “Logic will get you from A to Z; imagination will get you everywhere.”
 > 
-> — Albert Einstein
+>  — Albert Einstein
 
 It’s entirely up to you, but try the following:
 
@@ -37,6 +43,9 @@ Best served as shortcut.
 
 ### I want another filehost!
 
+<img src="http://openiconlibrary.sourceforge.net/gallery2/open_icon_library-full/icons/png/64x64/categories/applications-engineering-2.png"
+ align="right" />
+ 
 No worries, thought about that.  
 Due to imup’s modular nature it’s rather simple (if you know python):
 
