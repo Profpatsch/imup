@@ -56,7 +56,7 @@ Due to imup’s modular nature it’s rather simple (if you know python):
 2. Create a file `<filehost name>.py` in `hosts`.
 3. Create a class that extends `Imagehost` from `hosts/imagehost.py`.
 4. If the API has a simble POST functionality, overwrite 
-   `_handle_server_answer(self, answer.`.
+   `_handle_server_answer(self, answer)`.
 5. If it’s slightly more complicated, overwrite more functions of `Imagehost`.
 6. ???
 7. PROFIT!
