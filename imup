@@ -68,9 +68,6 @@ def main():
     try:
         link = host.get_link(args.filename)
         print(link)
-    except FiletypeError as e:
-        log.error(e.args[0])
-        sys.exit(1)
     except URLError as e:
         if hasattr(e, 'reason'):
             log.error(
@@ -83,8 +80,9 @@ def main():
     except ImagehostError as e:
         log.error("The image host encountered a problem. -v for debug info.")
         log.debug(e.args[0])
-
-        sys.stdout.flush()
+    except IOError as e:
+        log.error(e.args[0])
+        sys.exit(1)
 
 
 if __name__ == "__main__":
