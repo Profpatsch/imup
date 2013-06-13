@@ -18,24 +18,22 @@ options=()
 install=
 source=(git+https://github.com/Profpatsch/imup.git)
 noextract=()
-md5sums=() #generate with 'makepkg -g'
-
-pkgver() {
-  echo $pkgname
-}
+md5sums=('SKIP') #generate with 'makepkg -g'
 
 build() {
-  # Use the tag of the last commit
-  git checkout $pkgver
-  RETVAL=$?
-  if [ $RETVAL -ne 0 ]; then
+  cd $pkgname
+  pwd
+  ls
+  # Use the tag of the specified version
+  git checkout $pkgver || \
     msg "Couldn’t check out tag of last version ($pkgver) from GIT. Checking out master instead."
-  fi
 }
 
 package() {
-  cd $_gitname
-  python setup.py install --root="$pkgdir/" --optimize=1
+  cd $pkgname
+  pwd
+  ls
+  python2 install.py install --root="$pkgdir/" --optimize=1
 }
 
 # vim:set ts=2 sw=2 et:
