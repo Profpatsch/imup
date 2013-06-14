@@ -21,19 +21,19 @@ noextract=()
 md5sums=('SKIP') #generate with 'makepkg -g'
 
 build() {
-  cd $pkgname
+  cd ${pkgname}
   # Use the tag of the specified version
-  git checkout $pkgver || \
-    msg "Couldn’t check out tag of last version ($pkgver) from GIT. Checking out master instead."
+  git checkout ${pkgver} &> /dev/null || \
+    msg "Couldn’t check out tag of last version (${pkgver}) from GIT. Checking out master instead."
 }
 
 package() {
-  cd $pkgname
+  cd ${pkgname}
 
   # Add version number to python install
-  sed -i "s/)$/ version=\'$pkgver\'\n      )/" $pkgdir/setup.py
+  sed -i "s/)$/ version=\'${pkgver}\'\n      )/" setup.py
 
-  python2 setup.py install --root="$pkgdir/" --optimize=1
+  python2 setup.py install --root="${pkgdir}" --optimize=1
 
   # Link executable in /usr/bin
   # Get link of executable
@@ -42,11 +42,11 @@ import distutils.sysconfig
 print distutils.sysconfig.get_python_lib()
 EOFINTERNAL
   )
-  mkdir -p $pkgdir/usr/bin
-  ln -s $EXECUTABLE_PATH/imup.py $pkgdir/usr/bin/$pkgname
+  mkdir -p ${pkgdir}/usr/bin
+  ln -s ${EXECUTABLE_PATH}/imup/imup.py ${pkgdir}/usr/bin/${pkgname}
 
   # Make imup executable
-  chmod 755 $pkgdir/$EXECUTABLE_PATH/imup.py
+  chmod 755 ${pkgdir}/${EXECUTABLE_PATH}/imup.py
 }
 
 # vim:set ts=2 sw=2 et:
