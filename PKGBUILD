@@ -43,7 +43,7 @@ print distutils.sysconfig.get_python_lib()
 EOFINTERNAL
   )
   mkdir -p ${pkgdir}/usr/bin
-  ln -s ${EXECUTABLE_PATH}/imup/imup.py ${pkgdir}/usr/bin/${pkgname}
+  ln -s ${EXECUTABLE_PATH}/imup.py ${pkgdir}/usr/bin/${pkgname}
 
   # Make imup executable
   chmod 755 ${pkgdir}/${EXECUTABLE_PATH}/imup.py

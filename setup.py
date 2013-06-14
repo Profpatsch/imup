@@ -7,7 +7,5 @@ setup(name='imup',
       author='Profpatsch',
       author_email='mail@profpatsch.de',
       url='https://github.com/Profpatsch/imup',
-      packages={'imup': '',
-                'imup/hosts': 'hosts',
-                'imup/libposter': 'libposter'},
+      packages=['', 'hosts', 'libposter'],
      )
