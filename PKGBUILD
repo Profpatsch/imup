@@ -29,7 +29,8 @@ build() {
 
 package() {
   cd $pkgname
-  python2 install.py install --root="$pkgdir/" --optimize=1
+  echo $pkgdir/
+  python2 setup.py install --root="$pkgdir/" --optimize=1
 
   # Link executable in /usr/bin
   # Get link of executable
