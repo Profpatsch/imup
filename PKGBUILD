@@ -29,7 +29,10 @@ build() {
 
 package() {
   cd $pkgname
-  echo $pkgdir/
+
+  # Add version number to python install
+  sed -i "s/)$/ version=\'$pkgver\'\n      )/" $pkgdir/setup.py
+
   python2 setup.py install --root="$pkgdir/" --optimize=1
 
   # Link executable in /usr/bin
