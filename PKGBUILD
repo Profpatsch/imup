@@ -22,8 +22,6 @@ md5sums=('SKIP') #generate with 'makepkg -g'
 
 build() {
   cd $pkgname
-  pwd
-  ls
   # Use the tag of the specified version
   git checkout $pkgver || \
     msg "Couldn’t check out tag of last version ($pkgver) from GIT. Checking out master instead."
@@ -31,9 +29,20 @@ build() {
 
 package() {
   cd $pkgname
-  pwd
-  ls
   python2 install.py install --root="$pkgdir/" --optimize=1
+
+  # Link executable in /usr/bin
+  # Get link of executable
+  EXECUTABLE_PATH=$(python2 << EOFINTERNAL
+import distutils.sysconfig
+print distutils.sysconfig.get_python_lib()
+EOFINTERNAL
+  )
+  mkdir -p $pkgdir/usr/bin
+  ln -s $EXECUTABLE_PATH/imup.py $pkgdir/usr/bin/$pkgname
+
+  # Make imup executable
+  chmod 755 $pkgdir/$EXECUTABLE_PATH/imup.py
 }
 
 # vim:set ts=2 sw=2 et:
