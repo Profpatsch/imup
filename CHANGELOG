@@ -1,0 +1,15 @@
+0.2.2
+Changelog added.
+PKBUILD added. Installing with pacman works.
+setup.py.
+
+0.2.1
+xdg-mime as fallback to check if image.
+
+0.2.0
+Imgur support.
+README written.
+
+0.1.0
+Immio support.
+First working version.
