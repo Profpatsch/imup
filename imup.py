@@ -32,17 +32,7 @@ HOSTS = [s for s in dir(hosts) if not s.startswith('__')
 
 
 def main():
-    # Argparse
-    p = argparse.ArgumentParser(description=
-    """Takes a filename to an image, uploads it to the specified image host
-       (random if none given) and returns the link to the uploaded image.  """)
-    p.add_argument("-i", "--imagehost", metavar="hostname",
-            help="Specify the image host. One of: "+", ".join(HOSTS))
-    p.add_argument("-v", "--verbose", action='store_true')
-    p.add_argument("-V", "--version", action='version',
-                    version=".".join(str(i) for i in VERSION))
-    p.add_argument("filename")
-    args = p.parse_args()
+    args = _parse_args()
     register_openers()
 
     # Logging
@@ -52,37 +42,76 @@ def main():
     else:
         log.basicConfig(format="%(levelname)s: %(message)s")
 
-    # Get host
-    shost = args.imagehost if args.imagehost else choice(HOSTS)
-    if shost not in HOSTS:
-        sys.exit("This host isn’t available (yet). Try one of: " +
-                 ", ".join(HOSTS))
-    # Gets the module.
-    mHost = getattr(globals()['hosts'], shost)
-    # Gets the class.
-    clHost = getattr(mHost, shost.capitalize())
-    # Gets the object.
-    host = clHost()
+    # Try until there is no server left to try.
+    #TODO: Test non-working imagehosts!
+    while True:
+        try:
+            # If no host specified, try every host available.
+            if not args.imagehost:
+                host = choice(HOSTS)
+                log.debug("Trying host {}".format(host))
+                HOSTS.remove(host)
+                if not HOSTS:
+                    sys.exit("There is no more host to try.")
+            elif args.imagehost not in HOSTS:
+                sys.exit("This host isn’t available (yet). Try one of: {}."
+                        .format(", ".join(HOSTS)))
+            else:
+                host = args.imagehost
+            _print_link(_get_host(host), args.filename)
+            sys.exit(0)
+        except URLError as e:
+            if hasattr(e, 'reason'):
+                log.error(
+                        "Couldn’t contact server. Check your network connection.")
+                log.debug(str(e.reason))
+                sys.exit(1)
+            elif hasattr(e, 'code'):
+                if HOSTS:
+                    log.debug("This image host returned an error.")
+                else:
+                    log.error("The image host returned an error. Maybe try again?")
+                    log.debug(str(e.code))
+                    sys.exit(1)
+        except ImagehostError as e:
+            if args.imagehost: #TODO Same above.
+                log.debug(e.args[0])
+                sys.exit("The image host encountered a problem. -v for debug info.")
+            else:
+                log.debug("This image host doesn’t work. It says:\n{}"
+                        .format(e.args[0]))
+        except IOError as e:
+            log.error(e.args[0])
+            sys.exit(1)
 
-    # Get link
-    try:
-        link = host.get_link(args.filename)
-        print(link)
-    except URLError as e:
-        if hasattr(e, 'reason'):
-            log.error(
-                    "Couldn’t contact server. Check your network connection.")
-            log.debug(str(e.reason))
-        elif hasattr(e, 'code'):
-            log.error("The image host returned an error. Maybe try again?")
-            log.debug(str(e.code))
-        sys.exit(1)
-    except ImagehostError as e:
-        log.error("The image host encountered a problem. -v for debug info.")
-        log.debug(e.args[0])
-    except IOError as e:
-        log.error(e.args[0])
-        sys.exit(1)
+
+def _get_host(host):
+    """Get host object."""
+    # Gets the module.
+    mHost = getattr(globals()['hosts'], host)
+    # Gets the class.
+    clHost = getattr(mHost, host.capitalize())
+    # Gets the object.
+    return clHost()
+
+
+def _parse_args():
+    p = argparse.ArgumentParser(description=
+    """Takes a filename to an image, uploads it to the specified image host
+       (random if none given) and returns the link to the uploaded image.  """)
+    p.add_argument("-i", "--imagehost", metavar="hostname",
+            help="Specify the image host. One of: "+", ".join(HOSTS))
+    p.add_argument("-v", "--verbose", action='store_true')
+    p.add_argument("-V", "--version", action='version',
+                    version=".".join(str(i) for i in VERSION))
+    p.add_argument("filename")
+    return p.parse_args()
+
+
+def _print_link(host, filename):
+    """Get link and print it to command line"""
+    link = host.get_link(filename)
+    print(link)
 
 
 if __name__ == "__main__":

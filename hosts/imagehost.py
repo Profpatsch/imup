@@ -85,5 +85,9 @@ class Imagehost(object):
         """
         pass
 
-class FiletypeError(IOError): pass
-class ImagehostError(Exception): pass
+class FiletypeError(IOError):
+    """Filetype the server can't handle."""
+    pass
+class ImagehostError(Exception):
+    """General error to be used when the image host returns an error."""
+    pass
