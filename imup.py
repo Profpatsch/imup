@@ -26,7 +26,7 @@ import sys
 import logging as log
 from urllib2 import URLError, HTTPError
 
-VERSION = (0, 2, 1)
+VERSION = (0, 2, 3)
 HOSTS = [s for s in dir(hosts) if not s.startswith('__')
                                   and s != 'imagehost']
 
