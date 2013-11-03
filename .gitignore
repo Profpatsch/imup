@@ -1,6 +1,5 @@
 # Project
-poster/
-.ropeproject
+venv/
 
 
 *.py[cod]

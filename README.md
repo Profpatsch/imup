@@ -15,9 +15,11 @@ if none given) and returns the link to the uploaded image.
     optional arguments:
       -h, --help            show this help message and exit
       -i hostname, --imagehost hostname
-                            Specify the image host. One of: immio
+                            Specify the image host. One of: immio, imgur
       -v, --verbose
       -V, --version         show program's version number and exit
+
+Dependencies: [Requests](http://docs.python-requests.org/en/latest/)
 
 
 ### But, what can I do with it?
@@ -49,14 +51,17 @@ Best served as shortcut.
 No worries, thought about that.  
 Due to imup’s modular nature it’s rather simple (if you know python):
 
-1. Open `hosts/__init__.py` and add the line
+1. Open `imup.py` and add the line
 
         import <filehost name>
+
+   after the `#Image Hosts` comment.
 
 2. Create a file `<filehost name>.py` in `hosts`.
 3. Create a class that extends `Imagehost` from `hosts/imagehost.py`.
 4. If the API has a simple POST functionality, overwrite 
-   `_handle_server_answer(self, answer)`.
+   `_handle_server_answer(self, answer)`. (It uses 
+[Requests](http://docs.python-requests.org/en/latest/))
 5. If it’s slightly more complicated, overwrite more functions of `Imagehost`.
 6. ???
 7. PROFIT!

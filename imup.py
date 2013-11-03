@@ -23,6 +23,9 @@ import requests
 
 from hosts.imagehost import FiletypeError, ImagehostError
 
+# Image Hosts
+import hosts.immio
+import hosts.imgur
 
 
 VERSION = (0, 2, 3)
