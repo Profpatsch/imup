@@ -14,17 +14,16 @@ Usage:
     imup -V
 """
 
-import hosts
+import argparse
+import logging as log
+from random import choice
+import sys
+
+import requests
+
 from hosts.imagehost import FiletypeError, ImagehostError
 
-# The reason this is python2… can someone please port it?
-from libposter.streaminghttp import register_openers
 
-from random import choice
-import argparse
-import sys
-import logging as log
-from urllib2 import URLError, HTTPError
 
 VERSION = (0, 2, 3)
 HOSTS = [s for s in dir(hosts) if not s.startswith('__')
@@ -33,7 +32,6 @@ HOSTS = [s for s in dir(hosts) if not s.startswith('__')
 
 def main():
     args = _parse_args()
-    register_openers()
 
     # Logging
     if args.verbose:
@@ -45,36 +43,29 @@ def main():
     # Try until there is no server left to try.
     #TODO: Test non-working imagehosts!
     while True:
+        # If no host specified, try every host available.
+        if not args.imagehost:
+            host = choice(HOSTS)
+            log.debug("Trying host {}".format(host))
+            HOSTS.remove(host)
+            if not HOSTS:
+                sys.exit("There is no more host to try.")
+        elif args.imagehost not in HOSTS:
+            sys.exit("This host isn’t available (yet). Try one of: {}."
+                    .format(", ".join(HOSTS)))
+        else:
+            host = args.imagehost
+
         try:
-            # If no host specified, try every host available.
-            if not args.imagehost:
-                host = choice(HOSTS)
-                log.debug("Trying host {}".format(host))
-                HOSTS.remove(host)
-                if not HOSTS:
-                    sys.exit("There is no more host to try.")
-            elif args.imagehost not in HOSTS:
-                sys.exit("This host isn’t available (yet). Try one of: {}."
-                        .format(", ".join(HOSTS)))
-            else:
-                host = args.imagehost
             _print_link(_get_host(host), args.filename)
             sys.exit(0)
-        except URLError as e:
-            if hasattr(e, 'reason'):
-                log.error(
-                        "Couldn’t contact server. Check your network connection.")
-                log.debug(str(e.reason))
-                sys.exit(1)
-            elif hasattr(e, 'code'):
-                if HOSTS:
-                    log.debug("This image host returned an error.")
-                else:
-                    log.error("The image host returned an error. Maybe try again?")
-                    log.debug(str(e.code))
-                    sys.exit(1)
+        except requests.exceptions.ConnectionError as e:
+            log.error(
+                    "Couldn’t contact server. Check your network connection.")
+            log.debug(e)
+            sys.exit(1)
         except ImagehostError as e:
-            if args.imagehost: #TODO Same above.
+            if args.imagehost:
                 log.debug(e.args[0])
                 sys.exit("The image host encountered a problem. -v for debug info.")
             else:

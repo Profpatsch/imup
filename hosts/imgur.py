@@ -15,14 +15,13 @@ class Imgur(Imagehost):
 
     def _request_post(self):
         with open(self.fn, 'rb') as f:
-            datagen, headers = multipart_encode({'image': f})
-            headers['Authorization'] = 'Client-ID ' + CLIENT_ID
-            req = urllib2.Request(self.POST_URL, datagen, headers)
-            answer = urllib2.urlopen(req)
-            return answer.read()
+            headers = {'Authorization': 'Client-ID ' + CLIENT_ID}
+            r = requests.post(POST_URL,
+                    files={'image': (self.fn, f)}, headers=headers)
+            return r
 
     def _handle_server_answer(self, answer):
-        jansw = json.loads(answer)
+        jansw = answer.json()
         if jansw["status"] == 200:
             return jansw["data"]["link"]
         else:

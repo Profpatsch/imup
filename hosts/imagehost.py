@@ -1,12 +1,11 @@
 #!/usr/bin/env python2
 # −*− coding: UTF−8 −*−
-from libposter.encode import multipart_encode
-
-import urllib2
-import mimetypes
+import os
 import re
 import logging as log
-import os
+import mimetypes
+
+import requests
 
 POST_URL = None
 
@@ -20,10 +19,10 @@ class Imagehost(object):
     def get_link(self, filename):
         """Upload image to this image host and return a link to it.
 
-        Error:
+        Raises:
             ImagehostError
             FiletypeError (image not accepted)
-            URLError (Couldn’t contact server.)
+            requests.exceptions.ConnectionError (Couldn’t contact server.)
         """
         self.fn = filename
         if not os.path.exists(self.fn):
@@ -33,7 +32,7 @@ class Imagehost(object):
             if filetype is None:
                 raise FiletypeError("File is no image.")
             else:
-                raise FiletypeError("File is no image, it’s Mimtype is {0}!"
+                raise FiletypeError("File is no image, its Mimtype is {0}!"
                         .format(filetype))
 
         log.info("Uploading image…")
@@ -43,7 +42,7 @@ class Imagehost(object):
         return link
 
     def file_is_image(self):
-        """Checks if file is an image MIME-type.
+        """Checks if file is an image)MIME-type.
 
         Returns: (bool, mimestring)
         """
@@ -62,24 +61,21 @@ class Imagehost(object):
             return (False, type)
 
     def _request_post(self):
-        """Post the image to the URL specified in self.POST_URL
+        """Post the image to the URL specified in self.POST_URL.
 
-        Returns: Server answer (str)
-        Error: URLError
+        Returns: requests.Response
+        Raises: requests.exceptions.ConnectionError
         """
         with open(self.fn, 'rb') as f:
-            datagen, headers = multipart_encode({'image': f})
-            # Post image to host
-            req = urllib2.Request(self.POST_URL, datagen, headers)
-            answer = urllib2.urlopen(req)
-            return answer.read()
+            r = requests.post(self.POST_URL, files={'image': (self.fn, f)})
+            return r
 
-    def _handle_server_answer(self, answer):
+    def _handle_server_answer(self, response):
         """Handles the strings returned by the server, mostly JSON or XML.
         Most likely needs to be implemented by each image host module in a
         different way.
 
-        Input: Server answer
+        Args: requests.Response
         Returns: Link to image
         Error: ImagehostError
         """
