@@ -51,8 +51,6 @@ def main():
             host = choice(HOSTS)
             log.debug("Trying host {}".format(host))
             HOSTS.remove(host)
-            if not HOSTS:
-                sys.exit("There is no more host to try.")
         elif args.imagehost not in HOSTS:
             sys.exit("This host isn’t available (yet). Try one of: {}."
                     .format(", ".join(HOSTS)))
@@ -77,6 +75,9 @@ def main():
         except IOError as e:
             log.error(e.args[0])
             sys.exit(1)
+
+        if not HOSTS:
+            sys.exit("There is no more host to try.")
 
 
 def _get_host(host):
