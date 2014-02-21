@@ -24,7 +24,7 @@ import requests
 from hosts.imagehost import FiletypeError, ImagehostError
 
 # Image Hosts
-import hosts.immio
+# import hosts.immio # doesn’t work as of early 2014
 import hosts.imgur
 
 

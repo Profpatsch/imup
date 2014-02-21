@@ -15,7 +15,7 @@ if none given) and returns the link to the uploaded image.
     optional arguments:
       -h, --help            show this help message and exit
       -i hostname, --imagehost hostname
-                            Specify the image host. One of: immio, imgur
+                            Specify the image host. One of: imgur
       -v, --verbose
       -V, --version         show program's version number and exit
 
