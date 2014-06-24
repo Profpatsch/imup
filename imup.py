@@ -28,7 +28,7 @@ from hosts.imagehost import FiletypeError, ImagehostError
 import hosts.imgur
 
 
-VERSION = (0, 2, 4)
+VERSION = (0, 2, 5)
 HOSTS = [s for s in dir(hosts) if not s.startswith('__')
                                   and s != 'imagehost']
 

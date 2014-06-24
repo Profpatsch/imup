@@ -1,3 +1,12 @@
+0.2.5
+Fix dumb errors.
+
+0.2.4
+Remove discontinued immio.
+
+0.2.3
+Try all servers, until one works (if no server given on command line).
+
 0.2.2
 Changelog added.
 PKBUILD added. Installing with pacman works.
