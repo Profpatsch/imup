@@ -24,7 +24,7 @@ Dependencies: [Requests](http://docs.python-requests.org/en/latest/)
 
 ### But, what can I do with it?
 
-<img src="http://profpatsch.de/projects/imup/light-bulb.png"
+<img src="http://profpatsch.de/projects/imup/light_bulb.png"
  align="left" />
 
 >  “Logic will get you from A to Z; imagination will get you everywhere.”
