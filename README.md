@@ -1,7 +1,7 @@
 imup
 ====
 
-<img src="http://profpatsch.de/projects/imup/emblem-symbolic-link.png"
+<img src="img/emplem-symbolic-link.png"
  align="right" width="100" height="100"  />
 
 usage: `imup.py [-h] [-i hostname] [-v] [-V] filename`
@@ -24,7 +24,7 @@ Dependencies: [Requests](http://docs.python-requests.org/en/latest/)
 
 ### But, what can I do with it?
 
-<img src="http://profpatsch.de/projects/imup/light_bulb.png"
+<img src="img/light_bulb.png"
  align="left" />
 
 >  “Logic will get you from A to Z; imagination will get you everywhere.”
@@ -45,7 +45,7 @@ Best served as shortcut.
 
 ### I want another filehost!
 
-<img src="http://profpatsch.de/projects/imup/applications-engineering-2.png"
+<img src="img/applications-engineering-2.png"
  align="right" />
  
 No worries, thought about that.  
