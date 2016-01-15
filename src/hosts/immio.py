@@ -1,6 +1,4 @@
-#!/usr/bin/env python2
-# −*− coding: UTF−8 −*−
-from hosts.imagehost import *
+from imup.imagehost import *
 import json
 
 POST_URL = "http://imm.io/store/"

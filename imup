@@ -21,17 +21,14 @@ import sys
 
 import requests
 
-from hosts.imagehost import FiletypeError, ImagehostError
+from imup.imagehost import FiletypeError, ImagehostError
 
 # Image Hosts
 # import hosts.immio # doesn’t work as of early 2014
-import hosts.imgur
-
+import imup.hosts.imgur
+HOSTS = ['imgur']
 
 VERSION = (0, 2, 5)
-HOSTS = [s for s in dir(hosts) if not s.startswith('__')
-                                  and s != 'imagehost']
-
 
 def main():
     args = _parse_args()
@@ -44,6 +41,7 @@ def main():
         log.basicConfig(format="%(levelname)s: %(message)s")
 
     # Try until there is no server left to try.
+
     #TODO: Test non-working imagehosts!
     while True:
         # If no host specified, try every host available.

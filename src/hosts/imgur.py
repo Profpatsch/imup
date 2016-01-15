@@ -1,6 +1,4 @@
-#!/usr/bin/env python2
-# encoding: utf-8
-from hosts.imagehost import *
+from imup.imagehost import *
 import json
 
 POST_URL = "https://api.imgur.com/3/upload"
