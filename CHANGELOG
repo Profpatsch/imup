@@ -1,3 +1,8 @@
+0.2.6
+Change packaging from Archlinux to nix.
+Make project structure distutils conform.
+Add uguu.se as imagehost.
+
 0.2.5
 Fix dumb errors.
 
