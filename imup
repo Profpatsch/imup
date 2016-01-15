@@ -28,7 +28,7 @@ from imup.imagehost import FiletypeError, ImagehostError
 import imup.hosts.imgur
 HOSTS = ['imgur']
 
-VERSION = (0, 2, 5)
+VERSION = (0, 2, 6)
 
 def main():
     args = _parse_args()
