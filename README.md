@@ -1,7 +1,7 @@
 imup
 ====
 
-<img src="img/emplem-symbolic-link.png"
+<img src="img/emblem-symbolic-link.png"
  align="right" width="100" height="100"  />
 
 usage: `imup.py [-h] [-i hostname] [-v] [-V] filename`
