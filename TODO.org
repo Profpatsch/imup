@@ -1,0 +1,26 @@
+* Imagehosts
+** Generalized imagehost to add a self-hosted instance
+** Pictshare.net
+** Imageshack
+
+* Other sites
+** Sta.sh
+** Dropbox
+
+* Functionality
+** Setting expiration date
+
+* Packaging
+** Archlinux
+** NixOs
+** (Debian)
+
+* Misc stuff
+** OAuth
+   Some sites need it.
+   It’s not very well suited for an open source program (because of f* private
+   application keys). OAuth in general is a mistake.
+** Scrimup
+   Put the screenshot-direct-upload functionality in a shell script called
+   scrimup (own repository).
+   Use import and optionally scrot as screenshot-takers.
